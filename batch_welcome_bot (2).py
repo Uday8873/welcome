@@ -20,7 +20,7 @@ from telegram.ext import (
 # ─────────────────────────────────────────────
 #  BOT TOKEN — Render ke Environment Variable se aayega
 # ─────────────────────────────────────────────
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
+BOT_TOKEN = os.environ.get("8772470673:AAFn2Wu-IkN4RjXWVYwqlQJfHIX-qHfUD8A")
 
 # Uday Setty ka Telegram username (@ ke saath)
 UDAY_SETTY_USERNAME = "@UdaySetty"  # ← apna real username daalen
