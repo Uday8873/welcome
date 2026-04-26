@@ -1,12 +1,9 @@
 """
 Telegram Batch Welcome Bot
-==========================
-Jaise hi koi naya member group join kare, ye bot:
-1. Unhe personally greet karta hai
-2. Uday Setty se contact karne ka message deta hai
 """
 
 import os
+import sys
 import logging
 import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -18,12 +15,19 @@ from telegram.ext import (
 )
 
 # ─────────────────────────────────────────────
-#  BOT TOKEN — Render ke Environment Variable se aayega
+#  BOT TOKEN CHECK
 # ─────────────────────────────────────────────
 BOT_TOKEN = os.environ.get("8772470673:AAFn2Wu-IkN4RjXWVYwqlQJfHIX-qHfUD8A")
 
-# Uday Setty ka Telegram username (@ ke saath)
-UDAY_SETTY_USERNAME = "@UdaySetty"  # ← apna real username daalen
+if not BOT_TOKEN:
+    print("❌ ERROR: BOT_TOKEN environment variable set nahi hai!")
+    print("Render Dashboard → Environment → BOT_TOKEN add karein")
+    sys.exit(1)
+
+print(f"✅ BOT_TOKEN mila: {BOT_TOKEN[:10]}...")
+
+# Uday Setty ka Telegram username
+UDAY_SETTY_USERNAME = "@UdaySetty"
 
 # ─────────────────────────────────────────────
 #  WELCOME MESSAGE
@@ -61,6 +65,7 @@ class Handler(BaseHTTPRequestHandler):
 
 def run_server():
     port = int(os.environ.get("PORT", 8080))
+    print(f"🌐 Web server port {port} par chal raha hai...")
     HTTPServer(("0.0.0.0", port), Handler).serve_forever()
 
 # ─────────────────────────────────────────────
@@ -74,7 +79,6 @@ logger = logging.getLogger(__name__)
 
 
 async def greet_new_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Naye member ko greet karta hai."""
     result = update.chat_member
 
     if result.new_chat_member.status in [
@@ -98,17 +102,15 @@ async def greet_new_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 def main():
-    """Bot start karta hai."""
     print("🤖 Batch Welcome Bot shuru ho raha hai...")
 
-    # Web server pehle start karo (Render ke liye)
+    # Web server pehle start karo
     threading.Thread(target=run_server, daemon=True).start()
-    print("🌐 Web server chal raha hai...")
 
     app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(ChatMemberHandler(greet_new_member, ChatMemberHandler.CHAT_MEMBER))
 
-    print("✅ Bot chal raha hai!")
+    print("✅ Bot polling shuru...")
     app.run_polling(allowed_updates=["chat_member"])
 
 
