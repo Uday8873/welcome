@@ -19,7 +19,7 @@ from telegram.ext import (
 # ─────────────────────────────────────────────
 #  YAHAN APNA BOT TOKEN DAALEN
 # ─────────────────────────────────────────────
-BOT_TOKEN = "APNA_BOT_TOKEN_YAHAN_DAALEN"
+BOT_TOKEN = "8772470673:AAFn2Wu-IkN4RjXWVYwqlQJfHIX-qHfUD8A"
 
 # Uday Setty ka Telegram username (@ ke saath)
 UDAY_SETTY_USERNAME = "@UdaySetty"  # ← apna real username daalen
